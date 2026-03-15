@@ -1,0 +1,16 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+
+read -rp "Set fnmode=2 for AULA keyboard? [y/N] " answer
+ 
+case "$answer" in
+  [yY][eE][sS]|[yY])
+    sudo mkdir -p /etc/modprobe.d
+    echo "options hid_apple fnmode=2" | sudo tee -a /etc/modprobe.d/hid_apple.conf > /dev/null
+    echo "Done."
+    ;;
+  *)
+    echo "Aborted."
+    ;;
+esac
+{{ end -}}
