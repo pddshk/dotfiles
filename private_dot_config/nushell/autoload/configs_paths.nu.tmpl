@@ -1,0 +1,17 @@
+let NUSHELL_CONFIG: string = $nu.config-path
+let STARSHIP_CONFIG: string = $nu.home-dir | path join .config starship.toml
+let WEZTERM_CONFIG: string = $nu.home-dir | path join .wezterm.lua
+let NUSHELL_AUTOLOAD_DIR: string = $nu.user-autoload-dirs.0
+
+{{ if eq .chezmoi.os "linux" -}}
+let NVIM_CONFIG_DIR: string = $nu.home-dir | path join ".config" "nvim"
+{{- else if eq .chezmoi.os "windows" -}}
+let NVIM_CONFIG_DIR: string = $env.LOCALAPPDATA | path join "nvim"
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" -}}
+let LAZYGIT_CONFIG: string = $nu.home-dir | path join ".config" "lazygit" "config.yml"
+{{- else if eq .chezmoi.os "windows" -}}
+let LAZYGIT_CONFIG: string = $env.LOCALAPPDATA | path join "lazygit" "config.yml"
+{{ end -}}
+
