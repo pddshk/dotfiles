@@ -19,5 +19,12 @@ return {
         },
       },
     },
+{{ if eq .chezmoi.os "windows" -}}
+    lazygit = {
+      config = {
+        os = { editPreset = "nvim" },
+      },
+    },
+{{ end -}}
   },
 }
