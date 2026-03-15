@@ -1,0 +1,9 @@
+[username]
+show_always = true
+style_user = 'bold cyan'
+format = '[$user]($style)@'
+
+[hostname]
+ssh_only = false
+style = 'bold bright-purple'
+
