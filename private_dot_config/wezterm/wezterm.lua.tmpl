@@ -1,7 +1,9 @@
 local wezterm = require("wezterm")
 
 local config = {
+{{ if eq .chezmoi.os "windows" -}}
 	default_prog = { "nu" },
+{{ end }}
 	color_scheme = "Ayu Mirage",
 	tab_bar_at_bottom = true,
 	window_decorations = "RESIZE",
@@ -17,6 +19,7 @@ local config = {
 	launch_menu = {},
 	keys = {},
 	set_environment_variables = {},
+  mux_enable_ssh_agent = false
 }
 
 {{ if eq .chezmoi.os "windows" -}}
