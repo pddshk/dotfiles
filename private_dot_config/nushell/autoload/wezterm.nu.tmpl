@@ -1,0 +1,5 @@
+{{ if eq .chezmoi.os "windows" -}}
+$env.config.shell_integration = {
+  osc133: false,  # fix newline spam in wezterm
+}
+{{ end -}}
