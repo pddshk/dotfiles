@@ -1,0 +1,4 @@
+git:
+  log:
+    showGraph: when-maximised
+    order: date-order
