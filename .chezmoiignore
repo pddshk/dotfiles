@@ -2,4 +2,9 @@
 {{ if ne .chezmoi.os "linux" -}}
 .config/systemd
 .config/mpd
+{{ else if ne .chezmoi.os "windows" -}}
+{{ if ne .chezmoi.username "p_dydyshka" -}}
+.config/nvim/lua/plugins/actionscript.lua
 {{ end -}}
+{{ end -}}
+
