@@ -1,4 +1,5 @@
 # .chezmoiignore
-{{ if ne .chezmoi.os "linux" }}
+{{ if ne .chezmoi.os "linux" -}}
 .config/systemd
-{{ end }}
+.config/mpd
+{{ end -}}
