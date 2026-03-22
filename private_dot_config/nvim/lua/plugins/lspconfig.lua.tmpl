@@ -1,0 +1,20 @@
+{{ if eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.username "p_dydyshka" -}}
+return {
+  "neovim/nvim-lspconfig",
+  opts = {
+    servers = {
+      basedpyright = {
+        settings = {
+          python = {
+            pythonPath = "C:/Python313/python.exe",
+          },
+        },
+      },
+    },
+  },
+}
+{{ end -}}
+{{ else -}}
+return {}
+{{ end -}}
