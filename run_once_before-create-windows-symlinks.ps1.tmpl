@@ -6,6 +6,7 @@ $links = @(
 )
 
 foreach ($link in $links) {
+    New-Item -ItemType Directory -Path $link.Target -Force
     New-Item -ItemType SymbolicLink -Path $link.Path -Target $link.Target -Force
 }
 {{ end -}}
