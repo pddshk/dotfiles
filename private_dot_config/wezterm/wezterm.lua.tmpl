@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 
 local config = {
 {{ if eq .chezmoi.os "windows" -}}
-	default_prog = { "nu" },
+	default_prog = { "nu" },  -- FIXME maybe replace with env.SHELL
 {{ end }}
 	color_scheme = "Ayu Mirage",
 	tab_bar_at_bottom = true,
