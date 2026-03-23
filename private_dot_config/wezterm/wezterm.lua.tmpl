@@ -27,7 +27,7 @@ config.mux_enable_ssh_agent = false
 
 {{ if eq .chezmoi.os "windows" -}}
 table.insert(config.launch_menu, { label = "powershell", args = { "pwsh.exe", "-nologo" } })
-{{ if eq .chezmoi.username "p_dydyshka" -}}
+{{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
 table.insert(
   config.launch_menu,
   { label = "wotdevtool", args = { os.getenv("USERPROFILE") .. "/wotdevtool/menu.cmd" } }
