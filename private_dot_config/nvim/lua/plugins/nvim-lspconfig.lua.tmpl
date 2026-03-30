@@ -17,53 +17,7 @@ return {
         },
 {{ end }}
 {{- end }}
-        -- single root so only one server instance spawns
-        -- root_markers = { ".git" },
-
-        -- start with no workspace folders
-        -- workspaceFolders = {},
-
-        -- reuse the same client for ALL python files regardless of root_dir
-        reuse_client = function(client, config)
-          return true
-        end,
-
-        on_attach = function(client, bufnr)
-          -- find nearest pyproject.toml for this buffer
-          local fname = vim.api.nvim_buf_get_name(bufnr)
-          local root =
-            vim.fs.dirname(vim.fs.find({ "pyproject.toml", "pyrightconfig.json", "basedpyrightconfig.json" }, {
-              upward = true,
-              path = vim.fs.dirname(fname),
-            })[1])
-
-          if not root then
-            return
-          end
-
-          -- skip if already registered
-          if client.workspace_folders then
-            for _, folder in ipairs(client.workspace_folders) do
-              if folder.name == root then
-                return
-              end
-            end
-          end
-
-          -- lazily add workspace folder
-          client.notify("workspace/didChangeWorkspaceFolders", {
-            event = {
-              added = { { uri = vim.uri_from_fname(root), name = root } },
-              removed = {},
-            },
-          })
-
-          client.workspace_folders = client.workspace_folders or {}
-          table.insert(client.workspace_folders, {
-            uri = vim.uri_from_fname(root),
-            name = root,
-          })
-        end,
+        reuse_client_add_workspace = true,
       },
     },
   },
