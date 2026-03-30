@@ -1,9 +1,40 @@
 -- This file has z prefix in order to put it at the end in alphabetical order
 -- This file should always be kept after eevery other file that tweaks nvim-lspconfig
 -- and sets server.opts.reuse_client_add_workspace to true
+local find_workspace_root = function(config, path)
+  if not config.root_markers then return nil end
+  return vim.fs.dirname(vim.fs.find(
+    config.root_markers,
+    { upward = true, path = vim.fs.dirname(path) }
+  )[1])
+end
+
+local function add_workspace(client, root)
+  -- root = vim.fs.normalize(root)
+  for _, folder in ipairs(client.workspace_folders or {}) do
+    if folder.name == root then  -- workspace already added -- reuse it
+      return true
+    end
+  end
+
+  client.notify("workspace/didChangeWorkspaceFolders", {
+    event = {
+      added = { { uri = vim.uri_from_fname(root), name = root } },
+      removed = {},
+    },
+  })
+
+  client.workspace_folders = client.workspace_folders or {}
+  table.insert(client.workspace_folders, {
+    uri = vim.uri_from_fname(root),
+    name = root,
+  })
+  
+  return true
+end
+
 return {
   "neovim/nvim-lspconfig",
-  priority = 40,
   opts = function(_, opts)
     for server, server_opts in pairs(opts.servers or {}) do
       if not server_opts.reuse_client_add_workspace then
@@ -12,28 +43,28 @@ return {
 
       server_opts.reuse_client = function(client, config)
         if client.name ~= server then return false end -- don't reuse servers for other langs
+        return add_workspace(client, config.root_dir)
+      end
+      server_opts.before_init = function(params, config)
+        params.rootPath = nil
+        params.rootUri = nil
+        params.workspaceFolders = {}
+        local seen = {}
 
-        local root = config.root_dir
-        for _, folder in ipairs(client.workspace_folders or {}) do
-          if folder.name == root then  -- workspace already added -- reuse it
-            return true
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if not vim.api.nvim_buf_is_loaded(buf) then goto continue end
+          local path = vim.api.nvim_buf_get_name(buf)
+          if path == "" then goto continue end
+
+          local root = find_workspace_root(config, path)
+
+          if root and not seen[root] then
+            seen[root] = true
+            table.insert(params.workspaceFolders, { uri = vim.uri_from_fname(root), name = root })
           end
+
+          ::continue::
         end
-
-        client.notify("workspace/didChangeWorkspaceFolders", {
-          event = {
-            added = { { uri = vim.uri_from_fname(root), name = root } },
-            removed = {},
-          },
-        })
-
-        client.workspace_folders = client.workspace_folders or {}
-        table.insert(client.workspace_folders, {
-          uri = vim.uri_from_fname(root),
-          name = root,
-        })
-
-        return true
       end
       ::continue::
     end
