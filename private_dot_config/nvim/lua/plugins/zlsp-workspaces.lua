@@ -61,6 +61,11 @@ return {
           if not vim.api.nvim_buf_is_loaded(buf) then goto continue end
           local path = vim.api.nvim_buf_get_name(buf)
           if path == "" then goto continue end
+          -- skip buffers whose filetype is not handled by this server
+          -- this prevents attaching workspace when no files with corresponding filetype
+          -- are open, but there exists at least one with not corresponding filetype
+          local ft = vim.bo[buf].filetype
+          if not vim.tbl_contains(config.filetypes or {}, ft) then goto continue end
 
           local root = find_workspace_root(config, path)
 
