@@ -10,7 +10,7 @@ local find_workspace_root = function(config, path)
 end
 
 local function add_workspace(client, root)
-  -- root = vim.fs.normalize(root)
+  if not root then return true end
   for _, folder in ipairs(client.workspace_folders or {}) do
     if folder.name == root then  -- workspace already added -- reuse it
       return true
