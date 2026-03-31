@@ -1,0 +1,28 @@
+-- Autocmds are automatically loaded on the VeryLazy event
+-- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+--
+-- Add any additional autocmds here
+-- with `vim.api.nvim_create_autocmd`
+--
+-- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
+-- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+{{ if eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
+-- FIXME: Contribute to hightlights.scm for actionscript
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TSUpdate",
+  callback = function()
+    require("nvim-treesitter.parsers").actionscript = {
+      tier = 2,
+      install_info = {
+        url = "https://github.com/jcs090218/tree-sitter-actionscript",
+        revision = "12fc0c4c822c6edd924c13b328a93fe69454b299",
+        queries = "queries"
+      },
+      filetype = 'as'
+    }
+  end,
+})
+vim.filetype.add({ extension = { as = "actionscript" } })
+{{ end -}}
+{{ end -}}
