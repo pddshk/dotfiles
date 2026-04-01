@@ -3,6 +3,9 @@
 -- Add any additional options here
 
 {{ if eq .chezmoi.os "windows" -}}
+vim.o.shellcmdflag = '-c'  -- neovim defaults to /s /c on windows
+vim.o.shellquote = ''
+vim.o.shellxquote = ''
 {{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
 vim.g.python3_host_prog = "C:/Python313/python.exe"
 vim.g.autoformat = false
