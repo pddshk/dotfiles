@@ -1,0 +1,15 @@
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+
+{{- if eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.username "CORP\\p_dydyshka" }}
+vim.keymap.set('n', '<leader>h', function()
+  local python = 'C:/Python27/python.exe'
+  local script = vim.fn.getcwd() .. '/game/tools/wot/reloader/reloader.py'
+  local current_file = vim.fn.expand('%:p')
+  print('Hot-reloading ', current_file)
+  vim.cmd('split | terminal ' .. python .. ' ' .. script .. ' --file=' .. current_file)
+end, { desc = 'Run hot reloader on current file' })
+{{ end }}
+{{- end }}
