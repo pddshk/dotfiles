@@ -1,3 +1,3 @@
 return {
-  { "pddshk/gotmpl.nvim", opts = {} },
+  "pddshk/gotmpl.nvim",
 }
