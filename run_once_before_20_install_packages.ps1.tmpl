@@ -1,3 +1,9 @@
 {{ if eq .chezmoi.os "windows" -}}
 scoop install 7zip cacert carapace-bin cmake fd fzf lazygit llvm make neovim ninja nu patch ripgrep starship tree-sitter wezterm wget yazi zig zoxide juliaup bottom
+{{ if eq .chezmoi.username "CORP\\p_dydyshka" }}
+scoop install git@2.53.0.2
+scoop hold git
+{{ else }}
+scoop install git
+{{ end -}}
 {{ end -}}
