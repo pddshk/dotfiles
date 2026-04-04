@@ -13,3 +13,4 @@ vim.keymap.set('n', '<leader>h', function()
 end, { desc = 'Run hot reloader on current file' })
 {{ end }}
 {{- end }}
+vim.keymap.set("n", "<leader>L", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP Health" })
