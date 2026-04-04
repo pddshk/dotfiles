@@ -1,0 +1,6 @@
+{{ if eq .chezmoi.os "windows" -}}
+[plugin]
+fetchers = [
+  { id = "mime", url = "local://*", run="mime-ext.local", prio="high"}
+]
+{{ end -}}
