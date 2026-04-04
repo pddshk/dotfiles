@@ -3,7 +3,8 @@ $links = @(
     @{ Path = "$env:LOCALAPPDATA\nvim"; Target = "$HOME\.config\nvim" },
     @{ Path = "$env:LOCALAPPDATA\lazygit"; Target = "$HOME\.config\lazygit" },
     @{ Path = "$env:APPDATA\nushell"; Target = "$HOME\.config\nushell" },
-    @{ Path = "$env:APPDATA\yazi\config"; Target = "$HOME\.config\yazi" }
+    @{ Path = "$env:APPDATA\yazi\config"; Target = "$HOME\.config\yazi" },
+    @{ Path = "$env:APPDATA\bottom"; Target = "$HOME\.config\bottom" }
 )
 
 foreach ($link in $links) {
