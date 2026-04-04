@@ -4,7 +4,7 @@
 .config/mpd
 {{ else if ne .chezmoi.os "windows" -}}
 {{ if ne .chezmoi.username "p_dydyshka" -}}
-.config/nvim/lua/plugins/actionscript.lua
+.config/nushell/autoload/fisheye.nu
 {{ end -}}
 {{ end -}}
 
