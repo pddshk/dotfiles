@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env nu
+
+sudo mkdir -p /etc/udev/rules.d
+'ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness", RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"' | sudo tee /etc/udev/rules.d/90-backlight.rules | ignore
+
+sudo udevadm control --reload-rules
+sudo udevadm trigger --subsystem-match=backlight
+
+print "Backlight udev rule installed."
+
+systemctl --user enable --now bctld.service
+{{- end }}
