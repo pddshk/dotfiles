@@ -1,0 +1,15 @@
+[Unit]
+Description=bctld aka brightness control daemon
+PartOf=graphical-session.target
+StartLimitIntervalSec=90
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/bctld
+Restart=on-failure
+RestartSec=2
+RestartPreventExitStatus=100
+
+[Install]
+WantedBy=graphical-session.target
