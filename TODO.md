@@ -25,3 +25,4 @@
     * telescope-cmd-args.nvim ?
   * log all other common used features, investigate which plugins are resposible
     for them and install one by one
+  * image viewer
