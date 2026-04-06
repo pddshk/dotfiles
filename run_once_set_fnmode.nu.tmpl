@@ -1,0 +1,14 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env nu
+
+let answer = (input "Set fnmode=2 for AULA keyboard? [y/N] ")
+
+if ($answer | str downcase) in ["y", "yes"] {
+    sudo mkdir -p /etc/modprobe.d
+    "options hid_apple fnmode=2" | sudo tee -a /etc/modprobe.d/hid_apple.conf | ignore
+    print "Done."
+} else {
+    print "Aborted."
+}
+
+{{ end -}}
