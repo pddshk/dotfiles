@@ -9,5 +9,15 @@ vim.o.shellxquote = ''
 {{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
 vim.g.python3_host_prog = "C:/Python313/python.exe"
 vim.g.autoformat = false
-{{ end -}}
-{{ end -}}
+vim.filetype.add({ extension = { as = "actionscript" } })
+vim.filetype.add({ extension = { def = "xml" } })
+vim.filetype.add({ extension = { prefab = "xml" } })
+{{- end }}
+{{ end }}
+vim.opt.list = false
+vim.opt.listchars = {
+  tab = '→ ',
+  space = '·',
+  trail = '•',
+  eol = '↵',   -- optional: show end of line
+}
