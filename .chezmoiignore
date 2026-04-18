@@ -2,6 +2,7 @@
 {{ if ne .chezmoi.os "linux" -}}
 .config/systemd
 .config/mpd
+.config/nushell/autoload/env.nu
 {{ else if ne .chezmoi.os "windows" -}}
 {{ if ne .chezmoi.username "p_dydyshka" -}}
 .config/nushell/autoload/fisheye.nu
