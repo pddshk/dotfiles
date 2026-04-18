@@ -1,13 +1,4 @@
-{{ if eq .chezmoi.os "linux" -}}
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "ssh-agent.socket"
-{{ else if eq .chezmoi.os "windows" -}}
-$env.SHELL = which nu | first | get path
-$env.BAT_CONFIG_DIR = $nu.home-dir | path join ".config" "bat"
-$env.BAT_CONFIG_PATH = $env.BAT_CONFIG_DIR | path join "bat.conf"
-$env.PATH = ($env.PATH | append (
-    which git | get path.0 | path dirname | path join ".." "usr" "bin" | path expand
-))
-{{ end }}
 $env.EDITOR = which nvim | first | get path
 $env.BAT_THEME = "Catppuccin Mocha"
 $env.FZF_DEFAULT_OPTS = "
