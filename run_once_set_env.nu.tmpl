@@ -30,7 +30,4 @@ let merged = ($current_paths | append ($new_paths | where { |p| $p not-in $curre
 let new_value = ($merged | str join ";")
 
 ^reg add 'HKCU\Environment' /v Path /t REG_EXPAND_SZ /d $new_value /f
- 
-{{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
-{{- end }}
 {{- end }}
