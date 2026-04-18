@@ -1,0 +1,36 @@
+{{ if eq .chezmoi.os "windows" -}}
+let vars = {
+    SHELL: (which nu | first | get path)
+    GIT_SSH: 'C:\WINDOWS\System32\OpenSSH\ssh.exe'
+    BAT_CONFIG_DIR: ($nu.home-dir | path join ".config" "bat")
+    BAT_CONFIG_PATH: ($nu.home-dir | path join ".config" "bat" "bat.conf")
+    EDITOR: (which nvim | first | get path)
+    BAT_THEME: "Catppuccin Mocha"
+    FZF_DEFAULT_OPTS: ("
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8
+--color=selected-bg:#45475A
+--color=border:#6C7086,label:#CDD6F4" | str trim)
+}
+
+# Write each to registry
+$vars | items { |key, value|
+    ^reg add 'HKCU\Environment' /v $key /t REG_SZ /d $value /f
+}
+
+let new_paths = [
+    (which git | get path.0 | path dirname | path join ".." "usr" "bin" | path expand)
+    ($nu.home-dir | path join "bin")
+    ($nu.home-dir | path join ".local" "bin")
+]
+
+let current_paths = registry query --hkcu environment Path | get value | split row ";"
+let merged = ($current_paths | append ($new_paths | where { |p| $p not-in $current_paths }) )
+let new_value = ($merged | str join ";")
+
+^reg add 'HKCU\Environment' /v Path /t REG_EXPAND_SZ /d $new_value /f
+ 
+{{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
+{{- end }}
+{{- end }}
