@@ -41,8 +41,8 @@ return {
         goto continue
       end
 
-      -- here instead if just returning bool we decide whether to attach workspace
-      -- to and existing lsp instance, the workspace is added to client object
+      -- here instead of just returning bool we decide whether to attach workspace
+      -- to an existing lsp instance, the workspace is added to client object
       -- anyway, but in case client is not yet initialized notification is not sent
       -- because in that case responsibility to attach workspaces is on 'before_init'
       server_opts.reuse_client = function(client, config)
@@ -50,7 +50,7 @@ return {
         return add_workspace(client, config.root_dir)
       end
 
-      -- gather worspaces for all open buffers and set them on init
+      -- gather workspaces for all open buffers and set them on init
       server_opts.before_init = function(params, config)
         params.rootPath = nil
         params.rootUri = nil
