@@ -1,0 +1,29 @@
+(defcfg
+{{ if eq .chezmoi.os "windows" -}}
+  input  (low-level-hook)
+  output (send-event-sink 500 30)
+{{- else if eq .chezmoi.os "linux" }}
+;;  input  (device-file "/dev/input/by-id/YOUR-KEYBOARD-ID-HERE")
+;;  output (uinput-sink "KMonad output")
+{{- end }}
+  fallthrough true
+)
+
+(defsrc
+  a    s    d    f    j    k    l    ;
+)
+
+(defalias
+  a-s  (tap-hold-next-release 175 a lmet)
+  s-a  (tap-hold-next-release 175 s lalt)
+  d-s  (tap-hold-next-release 175 d lsft)
+  f-c  (tap-hold-next-release 175 f lctl)
+  j-c  (tap-hold-next-release 175 j rctl)
+  k-s  (tap-hold-next-release 175 k rsft)
+  l-a  (tap-hold-next-release 175 l lalt)
+  sc-s (tap-hold-next-release 175 ; rmet)
+)
+
+(deflayer base
+  @a-s @s-a @d-s @f-c @j-c @k-s @l-a @sc-s
+)
