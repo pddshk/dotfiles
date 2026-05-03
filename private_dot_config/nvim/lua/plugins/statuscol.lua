@@ -11,8 +11,8 @@ return {
       setopt = true,
       segments = {
         { sign = { namespace = { ".*" }, auto = true } },
-        { text = { lnum_both, " ", } },
-        { sign = { namespace = { "gitsigns" } } },
+        { text = { lnum_both } },
+        { sign = { namespace = { "gitsigns" }, colwidth = 1 } },
       },
     })
   end,
