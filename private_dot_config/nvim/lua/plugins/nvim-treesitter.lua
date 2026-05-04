@@ -3,10 +3,4 @@ return {
   branch = 'main',
   build = ':TSUpdate',
   lazy = false,
-  config = function()
-    require('nvim-treesitter.config').setup({
-      highlight = { enable = true },
-      indent = { enable = true },
-    })
-  end
 }
