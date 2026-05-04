@@ -1,10 +1,10 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  branch = 'main',
   build = ':TSUpdate',
   event = { 'BufReadPost', 'BufNewFile' },
   config = function()
-    require('nvim-treesitter.configs').setup({
-      ensure_installed = { 'lua', 'python', 'markdown' },
+    require('nvim-treesitter.config').setup({
       highlight = { enable = true },
       indent = { enable = true },
     })
