@@ -35,7 +35,7 @@ end
 
 return {
   "neovim/nvim-lspconfig",
-  opts = function(_, opts)
+  config = function(_, opts)
     for server, server_opts in pairs(opts.servers or {}) do
       if not server_opts.reuse_client_add_workspace then
         goto continue
