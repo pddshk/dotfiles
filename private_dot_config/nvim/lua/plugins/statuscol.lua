@@ -10,7 +10,7 @@ return {
     require("statuscol").setup({
       setopt = true,
       segments = {
-        { sign = { namespace = { ".*" }, auto = true } },
+        { sign = { namespace = { ".*" }, name = { ".*" }, colwidth = 2 } },
         { text = { lnum_both } },
         { sign = { namespace = { "gitsigns" }, colwidth = 1 } },
       },
