@@ -20,7 +20,7 @@ local function add_workspace(client, root)
   })
 
   if not client.initialized then return true end -- client is not initialized yet, but request with worspaces is sent on init
-  client.notify("workspace/didChangeWorkspaceFolders", {
+  client:notify("workspace/didChangeWorkspaceFolders", {
     event = {
       added = { { uri = vim.uri_from_fname(root), name = root } },
       removed = {},
