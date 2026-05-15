@@ -43,6 +43,8 @@ vim.opt.undofile = true
 vim.opt.undolevels = 10000
 vim.opt.wrap = true
 
+vim.diagnostic.config({ float = { border = "rounded" } })
+
 {{ if eq .chezmoi.os "windows" -}}
 vim.o.shellcmdflag = '-c'  -- neovim defaults to /s /c on windows
 vim.o.shellquote = ''
