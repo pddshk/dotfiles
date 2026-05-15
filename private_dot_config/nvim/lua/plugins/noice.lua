@@ -12,6 +12,9 @@ return {
         },
       },
     },
+    lsp = {
+      signature = { enabled = false },
+    },
     presets = {
       bottom_search = true,
       long_message_to_split = true,
