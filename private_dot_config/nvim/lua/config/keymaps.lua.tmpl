@@ -94,18 +94,13 @@ map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
 -- LSP
 map("n", "<leader>L", "<cmd>checkhealth vim.lsp<cr>", { desc = "LSP Health" })
 local lsp = vim.lsp.buf
-map("n", "gd", lsp.definition, { desc = "Go to definition"})
 map("n", "gD", lsp.declaration, { desc = "Go to declaration" })
-map("n", "gi", lsp.implementation, { desc = "Go to implementation" })
-map("n", "gr", lsp.references, { desc = "Go to references" })
-map("n", "gy", lsp.type_definition, { desc = "Go to type definition" })
 map("n", "K", lsp.hover, { desc = "Hover docs" })
 map("n", "gK", lsp.signature_help, { desc = "Signature help" })
 map("n", "<leader>ca", lsp.code_action, { desc = "Code action" })
 map({ "n", "x" }, "<leader>cf", function()
   lsp.format({ async = true })
 end, { desc = 'Format'})
-map("n", "<leader>sd", "gd", { remap = false, desc = "Search for symbol under cursor"})
 
 {{- if eq .chezmoi.os "windows" -}}
 {{ if eq .chezmoi.username "CORP\\p_dydyshka" }}
