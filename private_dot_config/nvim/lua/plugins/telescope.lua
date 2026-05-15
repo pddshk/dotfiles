@@ -32,6 +32,20 @@ return {
       desc = "Buffers",
     },
     {
+      "<leader>fr",
+      function()
+        require("telescope.builtin").oldfiles({ cwd_only = true })
+      end,
+      desc = "Recent files (project)",
+    },
+    {
+      "<leader>fR",
+      function()
+        require("telescope.builtin").oldfiles()
+      end,
+      desc = "Recent files (all)",
+    },
+    {
       "gd",
       function()
         require("telescope.builtin").lsp_definitions()

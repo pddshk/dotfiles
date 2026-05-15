@@ -21,6 +21,10 @@ return {
       },
       {
         mode = { "n", "x" },
+        { "<leader>f", group = "Find"}
+      },
+      {
+        mode = { "n", "x" },
         { "<leader>u", group = "Tree-sitter"}
       },
       {
