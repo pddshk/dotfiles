@@ -3,6 +3,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-live-grep-args.nvim",
+    "nvim-telescope/telescope-ui-select.nvim",
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "cmake -S. -Bbuild -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_C_STANDARD=17 -DCMAKE_BUILD_TYPE=Release ; cmake --build build --config Release --target install",
@@ -94,5 +95,6 @@ return {
     telescope.setup(opts)
     telescope.load_extension("fzf")
     telescope.load_extension("live_grep_args")
+    telescope.load_extension("ui-select")
   end,
 }
