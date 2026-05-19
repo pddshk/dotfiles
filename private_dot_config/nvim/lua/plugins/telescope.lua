@@ -12,11 +12,18 @@ return {
   cmd = "Telescope",
   keys = {
     {
-      "<leader><space>",
+      "<leader>fg",
       function()
-        require("telescope.builtin").find_files()
+        require("telescope.builtin").git_files()
       end,
-      desc = "Find files",
+      desc = "Find files (git)",
+    },
+    {
+      "<leader>fu",
+      function()
+        require("telescope.builtin").find_files({ find_command = { "fd", "--type", "f", "--unrestricted" } })
+      end,
+      desc = "Find files (unrestricted)",
     },
     {
       "<leader>/",
