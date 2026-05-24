@@ -1,3 +1,19 @@
+local function smart_find_by_ext(ext)
+  local is_git = vim.fn.isdirectory(".git") == 1
+  if is_git then
+    require('telescope.builtin').find_files({
+      find_command = { "git", "ls-files", "--cached", "--others", "--exclude-standard",
+        "*." .. ext },
+    })
+  else
+    require('telescope.builtin').find_files({
+      find_command = { "fd", "--type", "f", "--unrestricted", "-e", ext },
+    })
+  end
+end
+
+local exts = { "as", "asm", "bat", "bib", "c", "cfg", "cls", "cmd", "cpp", "cr", "cs", "css", "csv", "dart", "diff", "go", "gradle", "h", "hpp", "hs", "html", "ini", "ipynb", "java", "jl", "js", "json", "lua", "md", "ninja", "nu", "pas", "patch", "perl", "php", "pl", "pm", "po", "prefab", "proto", "ps1", "py", "pyi", "rs", "rst", "scm", "scss", "sh", "sql", "svg", "tex", "tmpl", "toml", "ts", "txt", "vim", "xml", "yaml", "yml", "other..." }
+
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -11,6 +27,22 @@ return {
   },
   cmd = "Telescope",
   keys = {
+    {
+      "<leader>fe",
+      function()
+        vim.ui.select(exts, { prompt = "Extension: " }, function(ext)
+          if not ext then return end
+          if ext == "other..." then
+            vim.ui.input({ prompt = "Extension: " }, function(ext)
+              smart_find_by_ext(ext)
+            end)
+            return
+          end
+          smart_find_by_ext(ext)
+        end)
+      end,
+      desc = "Find files by extension",
+    },
     {
       "<leader>fg",
       function()
