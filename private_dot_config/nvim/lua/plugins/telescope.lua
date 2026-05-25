@@ -2,8 +2,7 @@ local function smart_find_by_ext(ext)
   local is_git = vim.fn.isdirectory(".git") == 1
   if is_git then
     require('telescope.builtin').find_files({
-      find_command = { "git", "ls-files", "--cached", "--others", "--exclude-standard",
-        "*." .. ext },
+      find_command = { "git", "ls-files", "*." .. ext },
     })
   else
     require('telescope.builtin').find_files({
