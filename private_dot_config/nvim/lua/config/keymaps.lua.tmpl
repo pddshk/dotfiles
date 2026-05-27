@@ -101,6 +101,7 @@ map("n", "<leader>ca", lsp.code_action, { desc = "Code action" })
 map({ "n", "x" }, "<leader>cf", function()
   lsp.format({ async = true })
 end, { desc = 'Format'})
+map("n", "<leader>cr", lsp.rename, { desc = "Rename" })
 
 {{- if eq .chezmoi.os "windows" -}}
 {{ if eq .chezmoi.username "CORP\\p_dydyshka" }}
