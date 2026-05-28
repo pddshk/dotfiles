@@ -130,6 +130,14 @@ return {
   },
   config = function(_, opts)
     local telescope = require("telescope")
+    local lga_actions = require("telescope-live-grep-args.actions")
+    opts.extensions = opts.extensions or {}
+    opts.extensions.live_grep_args = opts.extensions.live_grep_args or {}
+    opts.extensions.live_grep_args.auto_quoting = true
+    opts.extensions.live_grep_args.mappings = opts.extensions.live_grep_args.mappings or {}
+    opts.extensions.live_grep_args.mappings.i = opts.extensions.live_grep_args.mappings.i or {}
+    opts.extensions.live_grep_args.mappings.i["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t" })
+
     telescope.setup(opts)
     telescope.load_extension("fzf")
     telescope.load_extension("live_grep_args")
