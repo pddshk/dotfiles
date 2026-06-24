@@ -64,6 +64,13 @@ return {
       desc = "Live grep (args)",
     },
     {
+      "<leader>*",
+      function()
+        require("telescope-live-grep-args.shortcuts").grep_word_under_cursor( { postfix = " -F -t"} )
+      end,
+      desc = "Live grep cword (args)",
+    },
+    {
       "<leader>,",
       function()
         require("telescope.builtin").buffers()
