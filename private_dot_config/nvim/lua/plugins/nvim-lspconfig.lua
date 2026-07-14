@@ -40,15 +40,6 @@ return {
         },
       },
       basedpyright = {
-{{- if eq .chezmoi.os "windows" -}}
-{{ if eq .chezmoi.username "CORP\\p_dydyshka" }}
-        settings = {
-          python = {
-            pythonPath = "C:/Python313/python.exe",
-          },
-        },
-{{ end }}
-{{- end }}
         root_markers = { "pyproject.toml", "pyrightconfig.json", "basedpyrightconfig.json" },
         reuse_client_add_workspace = true,
       },
