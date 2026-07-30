@@ -106,6 +106,7 @@ return {
       end
       ::continue::
       vim.lsp.config(server, server_opts)
+      vim.lsp.enable(server)
     end
   end,
 }
