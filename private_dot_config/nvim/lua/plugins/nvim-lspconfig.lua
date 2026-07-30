@@ -55,6 +55,7 @@ return {
       --     variableTypes = false,
       --   },
       -- }
+      nushell = {},
     },
   },
   -- NOTE: it is mandatory to have config function here as lazy.nvim
