@@ -1,13 +1,88 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
---
--- Add any additional autocmds here
--- with `vim.api.nvim_create_autocmd`
---
--- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
--- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
-{{ if eq .chezmoi.os "windows" -}}
-{{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable nvim-treesitter and install parser if not installed",
+  callback = function(args)
+    local treesitter = require("nvim-treesitter")
+    local lang = vim.treesitter.language.get_lang(args.match)
+    if vim.list_contains(treesitter.get_available(), lang) then
+      if not vim.list_contains(treesitter.get_installed(), lang) then
+        treesitter.install(lang):wait()
+      end
+      vim.treesitter.start(args.buf)
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  desc = "Check if we need to reload the file when it changed",
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  desc = "Highlight on yank",
+  callback = function()
+    (vim.hl or vim.highlight).on_yank()
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "VimResized" }, {
+  desc = "resize splits if window got resized",
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd("tabdo wincmd =")
+    vim.cmd("tabnext " .. current_tab)
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "close some filetypes with <q>",
+  pattern = {
+    "PlenaryTestPopup",
+    "checkhealth",
+    "dap-float",
+    "dbout",
+    "gitsigns-blame",
+    "grug-far",
+    "help",
+    "lspinfo",
+    "neotest-output",
+    "neotest-output-panel",
+    "neotest-summary",
+    "notify",
+    "qf",
+    "spectre_panel",
+    "startuptime",
+    "tsplayground",
+  },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.schedule(function()
+      vim.keymap.set("n", "q", function()
+        vim.cmd("close")
+        pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+      end, {
+        buffer = event.buf,
+        silent = true,
+        desc = "Quit buffer",
+      })
+    end)
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  desc = "Inlay hints on LspAttach",
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method("textDocument/inlayHint") then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
+  end,
+})
+
+--{{ if and (eq .chezmoi.os "windows") (eq .chezmoi.username "CORP\\p_dydyshka")}}
 -- FIXME: Contribute to hightlights.scm for actionscript
 vim.api.nvim_create_autocmd("User", {
   pattern = "TSUpdate",
@@ -17,11 +92,10 @@ vim.api.nvim_create_autocmd("User", {
       install_info = {
         url = "https://github.com/jcs090218/tree-sitter-actionscript",
         revision = "12fc0c4c822c6edd924c13b328a93fe69454b299",
-        queries = "queries"
+        queries = "queries",
       },
-      filetype = 'as'
+      filetype = "as",
     }
   end,
 })
-{{- end }}
-{{ end }}
+--{{- end }}

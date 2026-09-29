@@ -1,6 +1,3 @@
--- This file has z prefix in order to put it at the end in alphabetical order
--- This file should always be kept after eevery other file that tweaks nvim-lspconfig
--- and sets server.opts.reuse_client_add_workspace to true
 local find_workspace_root = function(config, path)
   if not config.root_markers then return nil end
   return vim.fs.dirname(vim.fs.find(
@@ -12,7 +9,7 @@ end
 local function add_workspace(client, root)
   if not root then return true end
   for _, folder in ipairs(client.workspace_folders or {}) do
-    if folder.name == root then  -- workspace already added -- reuse it
+    if folder.name == root then -- workspace already added -- reuse it
       return true
     end
   end
@@ -23,7 +20,7 @@ local function add_workspace(client, root)
   })
 
   if not client.initialized then return true end -- client is not initialized yet, but request with worspaces is sent on init
-  client.notify("workspace/didChangeWorkspaceFolders", {
+  client:notify("workspace/didChangeWorkspaceFolders", {
     event = {
       added = { { uri = vim.uri_from_fname(root), name = root } },
       removed = {},
@@ -35,11 +32,56 @@ end
 
 return {
   "neovim/nvim-lspconfig",
-  opts = function(_, opts)
+  opts = {
+    servers = {
+      lua_ls = {
+        root_markers = {
+          ".git",
+        },
+      },
+      basedpyright = {
+        root_markers = { "pyproject.toml", "pyrightconfig.json", "basedpyrightconfig.json" },
+        reuse_client_add_workspace = true,
+      },
+      ruff = {
+        root_markers = { "pyproject.toml", "ruff.toml" },
+        reuse_client_add_workspace = true,
+      },
+      -- ty = {
+      --   root_markers = { "pyproject.toml", "ty.toml" },
+      --   reuse_client_add_workspace = true,
+      --   inlayHints = {
+      --     variableTypes = false,
+      --   },
+      -- }
+      nushell = {},
+      julials = {
+        cmd = {
+          "julia",
+          "--startup-file=no",
+          "--history-file=no",
+          "--project=@lsp",
+          "-e",
+          [[
+          using LanguageServer
+          env = dirname(something(Base.current_project(pwd()), Base.load_path_expand("@v#.#")))
+          server = LanguageServer.LanguageServerInstance(stdin, stdout, env)
+          run(server)
+          ]],
+        },
+      }
+    },
+  },
+  -- NOTE: it is mandatory to have config function here as lazy.nvim
+  -- uses require(plugin).setup(opts) otherwise, but require('lspconfig')
+  -- is deprecated for nvim-lspconfig
+  config = function(_, opts)
     for server, server_opts in pairs(opts.servers or {}) do
       if not server_opts.reuse_client_add_workspace then
         goto continue
       end
+      -- remove this cutom field from config for clearness
+      server_opts.reuse_client_add_workspace = nil
 
       -- here instead of just returning bool we decide whether to attach workspace
       -- to an existing lsp instance, the workspace is added to client object
@@ -78,6 +120,8 @@ return {
         end
       end
       ::continue::
+      vim.lsp.config(server, server_opts)
+      vim.lsp.enable(server)
     end
   end,
 }
