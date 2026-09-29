@@ -45,7 +45,6 @@ return {
       },
       ruff = {
         root_markers = { "pyproject.toml", "ruff.toml" },
-        cmd = { "ruff", "server", "--preview" },
         reuse_client_add_workspace = true,
       },
       -- ty = {
