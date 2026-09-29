@@ -55,6 +55,21 @@ return {
       --   },
       -- }
       nushell = {},
+      julials = {
+        cmd = {
+          "julia",
+          "--startup-file=no",
+          "--history-file=no",
+          "--project=@lsp",
+          "-e",
+          [[
+          using LanguageServer
+          env = dirname(something(Base.current_project(pwd()), Base.load_path_expand("@v#.#")))
+          server = LanguageServer.LanguageServerInstance(stdin, stdout, env)
+          run(server)
+          ]],
+        },
+      }
     },
   },
   -- NOTE: it is mandatory to have config function here as lazy.nvim
