@@ -1,3 +1,5 @@
+$env.GOBIN = $nu.home-dir | path join ".go" "bin"
+$env.PATH = $env.PATH | prepend $env.GOBIN
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "ssh-agent.socket"
 $env.EDITOR = which nvim | first | get path
 $env.BAT_THEME = "Catppuccin Mocha"
