@@ -7,4 +7,6 @@ source $jabba_integration_file
 
 if $jabba_integration_file == null {
     print -e "warning: no jabba integration file is found. Consider running jabba init"
+} else {
+    jabba use openjdk@17
 }
