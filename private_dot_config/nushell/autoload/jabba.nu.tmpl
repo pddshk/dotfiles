@@ -1,0 +1,10 @@
+{{- $jabbaHome := env "JABBA_HOME" | default (joinPath .chezmoi.homeDir ".jabba") -}}
+{{- $jabbaNu := joinPath $jabbaHome "jabba.nu" -}}
+{{- if stat $jabbaNu -}}
+# inlined from {{ $jabbaNu }} by chezmoi; re-run `chezmoi apply` after `jabba init`
+{{ include $jabbaNu }}
+
+jabba use openjdk@25
+{{- else -}}
+print -e "warning: {{ $jabbaNu }} not found. Run `jabba init`, then `chezmoi apply`"
+{{- end }}
