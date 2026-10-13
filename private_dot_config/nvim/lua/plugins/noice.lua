@@ -1,5 +1,6 @@
 return {
-  "folke/noice.nvim",
+  "pddshk/noice.nvim",
+  branch = "fix-hover-multiple-clients",
   event = "VeryLazy",
   dependencies = {
     "MunifTanjim/nui.nvim",
