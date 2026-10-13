@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "context": "Autocomplete",
+      "bindings": {
+        "tab": "autocomplete:next",
+        "shift+tab": "autocomplete:previous",
+        "enter": "autocomplete:accept"
+      }
+    }
+  ]
+}
