@@ -1,14 +1,16 @@
 {{ if eq .chezmoi.os "windows" -}}
 let use_light_theme = registry query --hkcu 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' AppsUseLightTheme
 | get value
-| $in == 0
+| $in == 1
 {{- else if eq .chezmoi.os "linux" }}
 let use_light_theme = false
 {{ end }}
 
-let theme = if $use_light_theme {
-  # catppuccin latte
-  {
+if $use_light_theme {
+  $env.STARSHIP_CONFIG = ($nu.home-dir | path join .config starship-latte.toml)
+}
+
+let catppuccin_mocha = {
     rosewater: "#f5e0dc"
     flamingo: "#f2cdcd"
     pink: "#f5c2e7"
@@ -35,10 +37,8 @@ let theme = if $use_light_theme {
     base: "#1e1e2e"
     mantle: "#181825"
     crust: "#11111b"
-  }
-} else {
-  # catppuccin mocha
-  {
+}
+let catppuccin_latte = {
     rosewater: "#dc8a78"
     flamingo: "#dd7878"
     pink: "#ea76cb"
@@ -65,7 +65,12 @@ let theme = if $use_light_theme {
     base: "#eff1f5"
     mantle: "#e6e9ef"
     crust: "#dce0e8"
-  }
+}
+
+let theme = if $use_light_theme {
+    $catppuccin_latte
+} else {
+    $catppuccin_mocha
 }
 
 let scheme = {
