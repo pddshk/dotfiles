@@ -29,9 +29,7 @@ local config = {
     scrollback_lines = 10000,
 }
 
-{{ if eq .chezmoi.os "linux" -}}
 config.mux_enable_ssh_agent = false
-{{ end }}
 
 {{ if eq .chezmoi.os "windows" -}}
 table.insert(config.launch_menu, { label = "powershell", args = { "pwsh.exe", "-nologo" } })
