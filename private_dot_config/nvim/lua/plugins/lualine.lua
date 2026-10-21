@@ -2,6 +2,20 @@ return {
   "nvim-lualine/lualine.nvim",
   opts = {
     sections = {
+      lualine_b = {
+        "branch",
+        {
+          "diff",
+          -- reuse gitsigns data instead of spawning `git diff` (which can take index.lock)
+          source = function()
+            local s = vim.b.gitsigns_status_dict
+            if s then
+              return { added = s.added, modified = s.changed, removed = s.removed }
+            end
+          end,
+        },
+        "diagnostics",
+      },
       lualine_c = {},
       lualine_x = {
         "searchcount",
