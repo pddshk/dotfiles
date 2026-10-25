@@ -68,10 +68,22 @@ vim.o.shellxquote = ''
 {{ if eq .chezmoi.username "CORP\\p_dydyshka" -}}
 vim.g.python3_host_prog = "C:/Python313/python.exe"
 vim.g.autoformat = false
-vim.filetype.add({ extension = { as = "actionscript" } })
-vim.filetype.add({ extension = { def = "xml" } })
-vim.filetype.add({ extension = { prefab = "json" } })
+vim.filetype.add({
+    extension = {
+        as = "actionscript",
+        def = "xml",
+        prefab = "json",
+    },
+})
 {{- end }}
 {{ end }}
+vim.filetype.add({
+    filename = {
+        ["docker-compose.yml"] = "yaml.docker-compose",
+        ["docker-compose.yaml"] = "yaml.docker-compose",
+        ["compose.yml"] = "yaml.docker-compose",
+        ["compose.yaml"] = "yaml.docker-compose",
+    },
+})
 
 require('vim._core.ui2').enable({})
