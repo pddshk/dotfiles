@@ -1,76 +1,27 @@
-{{ if eq .chezmoi.os "windows" -}}
-let use_light_theme = registry query --hkcu 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' AppsUseLightTheme
-| get value
-| $in == 1
-{{- else if eq .chezmoi.os "linux" }}
-let use_light_theme = false
-{{ end }}
-
-if $use_light_theme {
-  $env.STARSHIP_CONFIG = ($nu.home-dir | path join .config starship-latte.toml)
-}
-
-let catppuccin_mocha = {
-    rosewater: "#f5e0dc"
-    flamingo: "#f2cdcd"
-    pink: "#f5c2e7"
-    mauve: "#cba6f7"
-    red: "#f38ba8"
-    maroon: "#eba0ac"
-    peach: "#fab387"
-    yellow: "#f9e2af"
-    green: "#a6e3a1"
-    teal: "#94e2d5"
-    sky: "#89dceb"
-    sapphire: "#74c7ec"
-    blue: "#89b4fa"
-    lavender: "#b4befe"
-    text: "#cdd6f4"
-    subtext1: "#bac2de"
-    subtext0: "#a6adc8"
-    overlay2: "#9399b2"
-    overlay1: "#7f849c"
-    overlay0: "#6c7086"
-    surface2: "#585b70"
-    surface1: "#45475a"
-    surface0: "#313244"
-    base: "#1e1e2e"
-    mantle: "#181825"
-    crust: "#11111b"
-}
-let catppuccin_latte = {
-    rosewater: "#dc8a78"
-    flamingo: "#dd7878"
-    pink: "#ea76cb"
-    mauve: "#8839ef"
-    red: "#d20f39"
-    maroon: "#e64553"
-    peach: "#fe640b"
-    yellow: "#df8e1d"
-    green: "#40a02b"
-    teal: "#179299"
-    sky: "#04a5e5"
-    sapphire: "#209fb5"
-    blue: "#1e66f5"
-    lavender: "#7287fd"
-    text: "#4c4f69"
-    subtext1: "#5c5f77"
-    subtext0: "#6c6f85"
-    overlay2: "#7c7f93"
-    overlay1: "#8c8fa1"
-    overlay0: "#9ca0b0"
-    surface2: "#acb0be"
-    surface1: "#bcc0cc"
-    surface0: "#ccd0da"
-    base: "#eff1f5"
-    mantle: "#e6e9ef"
-    crust: "#dce0e8"
-}
-
-let theme = if $use_light_theme {
-    $catppuccin_latte
-} else {
-    $catppuccin_mocha
+# Catppuccin for nushell, using terminal palette slots only (no hardocded hex),
+# so colors follow the terminal's light/dark switch live
+#
+# Indexed slots are defined by the "Mocha+/Latte+" schemes in wezterm.lua
+#
+# Each specific color occupies xterm slot that is nearest to both flavor
+# variants (see scripts/nearest_xterm_slot.jl).
+const theme = {
+  text: default
+  red: red
+  green: green
+  yellow: yellow
+  blue: blue
+  pink: purple
+  teal: cyan
+  surface2: dark_gray
+  overlay2: xterm_lightslategrey  # 103
+  lavender: xterm_steelblue1a     # 75
+  mauve: xterm_lightslateblue     # 105
+  sky: xterm_lightskyblue3b       # 110
+  maroon: xterm_lightpink3        # 174
+  flamingo: xterm_mistyrose3      # 181
+  peach: xterm_salmon1            # 209
+  rosewater: xterm_lightpink1     # 217
 }
 
 let scheme = {
@@ -93,7 +44,7 @@ $env.config.color_config = {
   record: $theme.text
   list: $theme.text
   hints: $scheme.virtual_text
-  search_result: { fg: $theme.base bg: $theme.yellow }
+  search_result: { fg: $theme.yellow attr: r }
   shape_closure: $theme.teal
   closure: $theme.teal
   shape_flag: { fg: $theme.maroon attr: i }
@@ -167,9 +118,6 @@ $env.config.color_config = {
   block: $scheme.recognized_command
   shape_custom: $theme.pink
   custom: $theme.pink
-  background: $theme.base
-  foreground: $theme.text
-  cursor: { bg: $theme.rosewater fg: $theme.base }
   shape_range: $scheme.operator
   range: $scheme.operator
   shape_pipe: $scheme.operator
@@ -200,13 +148,13 @@ $env.config.color_config = {
 }
 $env.config.highlight_resolved_externals = true
 $env.config.explore = {
-    status_bar_background: { fg: $theme.text, bg: $theme.mantle },
-    command_bar_text: { fg: $theme.text },
-    highlight: { fg: $theme.base, bg: $theme.yellow },
+    status_bar_background: { fg: default, bg: black },
+    command_bar_text: { fg: default },
+    highlight: { fg: $theme.yellow attr: r },
     status: {
         error: $theme.red,
         warn: $theme.yellow,
         info: $theme.blue,
     },
-    selected_cell: { bg: $theme.blue fg: $theme.base },
+    selected_cell: { fg: $theme.blue attr: r },
 }
