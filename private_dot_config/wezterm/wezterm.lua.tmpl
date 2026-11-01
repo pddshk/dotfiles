@@ -1,10 +1,46 @@
 local wezterm = require("wezterm")
 
+-- Catppuccin with extra 256-color slots, so apps using indexed colors
+-- (e.g. starship) follow light/dark switching live.
+-- Each color sits in the xterm cube slot nearest to both its Mocha and
+-- Latte variant (see scripts/nearest_xterm_slot.jl), so other apps using
+-- those slots see only a small shift.
+local function catppuccin(base, extra)
+  local scheme = wezterm.color.get_builtin_schemes()[base]
+  for slot, color in pairs(extra) do
+    scheme.indexed[slot] = color
+  end
+  return scheme
+end
+
+local color_schemes = {
+  ["Catppuccin Mocha+"] = catppuccin("Catppuccin Mocha", {
+    [209] = "#fab387", -- peach     (default #ff875f)
+    [217] = "#f5e0dc", -- rosewater (default #ffafaf)
+    [110] = "#89dceb", -- sky       (default #87afd7)
+    [105] = "#cba6f7", -- mauve     (default #8787ff)
+    [103] = "#9399b2", -- overlay2  (default #8787af)
+    [181] = "#f2cdcd", -- flamingo  (default #d7afaf)
+    [75]  = "#b4befe", -- lavender  (default #5fafff)
+    [174] = "#eba0ac", -- maroon    (default #d78787)
+  }),
+  ["Catppuccin Latte+"] = catppuccin("Catppuccin Latte", {
+    [209] = "#fe640b", -- peach
+    [217] = "#dc8a78", -- rosewater
+    [110] = "#04a5e5", -- sky
+    [105] = "#8839ef", -- mauve
+    [103] = "#7c7f93", -- overlay2
+    [181] = "#dd7878", -- flamingo
+    [75]  = "#7287fd", -- lavender
+    [174] = "#e64553", -- maroon
+  }),
+}
+
 function scheme_for_appearance(appearance)
   if appearance:find "Dark" then
-    return "Catppuccin Mocha"
+    return "Catppuccin Mocha+"
   else
-    return "Catppuccin Latte"
+    return "Catppuccin Latte+"
   end
 end
 
@@ -13,6 +49,7 @@ local config = {
 	default_prog = { "nu" },  -- FIXME maybe replace with env.SHELL
 {{ end }}
   color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
+  color_schemes = color_schemes,
 	tab_bar_at_bottom = true,
 	window_decorations = "RESIZE",
 	use_fancy_tab_bar = false,
