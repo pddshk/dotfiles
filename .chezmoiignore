@@ -1,4 +1,5 @@
 # .chezmoiignore
+scripts  # repo helper scripts
 {{ if ne .chezmoi.os "linux" -}}
 .config/systemd
 .config/mpd
