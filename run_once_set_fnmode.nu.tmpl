@@ -5,7 +5,13 @@ let answer = (input "Set fnmode=2 for AULA keyboard? [y/N] ")
 
 if ($answer | str downcase) in ["y", "yes"] {
     sudo mkdir -p /etc/modprobe.d
-    "options hid_apple fnmode=2" | sudo tee -a /etc/modprobe.d/hid_apple.conf | ignore
+    "options hid_apple fnmode=2\n" | sudo tee /etc/modprobe.d/hid_apple.conf | ignore
+
+    # apply to the already-loaded module too, no reboot/reconnect needed
+    let param = "/sys/module/hid_apple/parameters/fnmode"
+    if ($param | path exists) {
+        "2" | sudo tee $param | ignore
+    }
     print "Done."
 } else {
     print "Aborted."
