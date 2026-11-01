@@ -1,0 +1,32 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Colors are ANSI/256-color indices only, so they follow the terminal
+# palette and swap live on light/dark switch. Indexed slots are defined by
+# the "Mocha+/Latte+" schemes in wezterm.lua:
+#
+# 209 = peach
+# 217 = rosewater
+# 110 = sky
+# 105 = mauve
+# purple = pink
+# white = subtext1
+#
+# new colors can be added to override existing slots according to
+# scrips/nearest_xterm_slot.jl
+
+[username]
+show_always = true
+style_user = 'bold 110'
+format = '[$user]($style)@'
+
+[hostname]
+ssh_only = false
+style = 'bold 105'
+
+[character]
+success_symbol = '[[󰄛](green) ❯](209)'
+error_symbol = '[[󰄛](red) ❯](209)'
+vimcmd_symbol = '[󰄛 ❮](white)'
+
+[git_branch]
+style = 'bold purple'
