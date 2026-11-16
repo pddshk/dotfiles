@@ -3,7 +3,7 @@
 
 let answer = (input "Set fnmode=2 for AULA keyboard? [y/N] ")
 
-if ($answer | str downcase) in ["y", "yes"] {
+if ($answer | str lowercase) in ["y", "yes"] {
     sudo mkdir -p /etc/modprobe.d
     "options hid_apple fnmode=2\n" | sudo tee /etc/modprobe.d/hid_apple.conf | ignore
 
@@ -12,9 +12,9 @@ if ($answer | str downcase) in ["y", "yes"] {
     if ($param | path exists) {
         "2" | sudo tee $param | ignore
     }
-    print "Done."
+    print "Successfully set fnmode."
 } else {
-    print "Aborted."
+    print "Skipped setting fnmode."
 }
 
 {{ end -}}
