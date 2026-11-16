@@ -3,6 +3,7 @@ scripts  # repo helper scripts
 dconf    # dconf dumps, loaded by run_onchange_after_dconf_load
 {{ if ne .chezmoi.os "linux" -}}
 .config/systemd
+.config/bctl
 .config/mpd
 .config/nushell/autoload/env.nu
 {{ else if ne .chezmoi.os "windows" -}}
@@ -12,5 +13,6 @@ dconf    # dconf dumps, loaded by run_onchange_after_dconf_load
 {{ end }}
 {{ if eq .chezmoi.username "orangepi" }}
 .config/systemd/user/bctld.service
+.config/bctl
 {{ end }}
 
