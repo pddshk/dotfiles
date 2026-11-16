@@ -1,5 +1,6 @@
 # .chezmoiignore
 scripts  # repo helper scripts
+dconf    # dconf dumps, loaded by run_onchange_after_dconf_load
 {{ if ne .chezmoi.os "linux" -}}
 .config/systemd
 .config/mpd

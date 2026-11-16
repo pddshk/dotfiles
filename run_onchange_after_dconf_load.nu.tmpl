@@ -1,0 +1,30 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env nu
+
+# Loads tracked dconf subtrees (Budgie keybindings). Re-runs whenever any ini changes:
+# dconf/buddiesofbudgie-media-keys.ini {{ include "dconf/buddiesofbudgie-media-keys.ini" | sha256sum }}
+# dconf/gnome-custom-keybindings.ini   {{ include "dconf/gnome-custom-keybindings.ini" | sha256sum }}
+# dconf/budgie-wm.ini                  {{ include "dconf/budgie-wm.ini" | sha256sum }}
+#
+# Re-capture with e.g.:
+#   dconf dump /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/ | save -f dconf/gnome-custom-keybindings.ini
+
+# Budgie only (headless boxes have no dconf / no consumer). XDG_CURRENT_DESKTOP is unset over SSH, so don't use it.
+if (which dconf | is-empty) or (which budgie-panel | is-empty) {
+    print "dconf/budgie not found, skipping dconf load."
+    exit 0
+}
+
+let src = "{{ .chezmoi.sourceDir }}/dconf"
+
+# Custom shortcut list (Budgie's own schema) + www/home launchers
+open --raw $"($src)/buddiesofbudgie-media-keys.ini" | dconf load /org/buddiesofbudgie/settings-daemon/plugins/media-keys/
+
+# custom0..N are fully owned by the tracked file: reset first for exact state
+dconf reset -f /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/
+open --raw $"($src)/gnome-custom-keybindings.ini" | dconf load /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/
+
+open --raw $"($src)/budgie-wm.ini" | dconf load /com/solus-project/budgie-wm/
+
+print "dconf keybindings loaded (re-login if labwc doesn't pick them up)."
+{{ end -}}
