@@ -4,7 +4,36 @@
 # TODO: add carapace, wezterm to eopkg
 # TODO: move ast-grep to eopkg
 sudo eopkg install -y -c system.devel
-sudo eopkg install -y nushell neovim keepassxc yazi git zoxide ripgrep fzf fd rustup tree-sitter docker docker-compose lazygit nodejs mpd ncmpcpp vlc ffmpeg juliaup font-firacode-nerd luarocks clang sqlite3-devel pip bat dconf-editor
+sudo eopkg install -y \
+    bat \
+    clang \
+    dconf-editor \
+    docker \
+    docker-compose \
+    fd \
+    ffmpeg \
+    font-firacode-nerd \
+    fzf \
+    git \
+    juliaup \
+    keepassxc \
+    lazygit \
+    luarocks \
+    mpd \
+    ncmpcpp \
+    neovim \
+    nodejs \
+    nushell \
+    pip \
+    ripgrep \
+    rustup \
+    sqlite3-devel \
+    tree-sitter \
+    uv \
+    vlc \
+    yazi \
+    zoxide \
+
 sudo eopkg dc
 sudo luarocks install lsqlite3
 sudo npm install -g neovim
@@ -12,6 +41,9 @@ pip install neovim mmdc
 juliaup update
 rustup update
 cargo install ast-grep tree-sitter-cli
+uv tool install -U --managed-python --python 3.14 bctl
+uv tool install ruff
+uv tool install basedpyright
 {{ end -}}
 {{ end -}}
 
